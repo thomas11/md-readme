@@ -70,11 +70,8 @@
 	       (backward-char)
 	       (when (looking-at-p ":")
 		 (delete-char 1))))
-	    ((mdr-looking-at-list-p-2) (insert "*"))
-	    (t (delete-char 1)) ; whitespace
-	    )
-      
-      )
+	    ((mdr-looking-at-list-p) (insert "*"))
+	    (t (delete-char 1)))) ; whitespace
     (forward-line 1)))
 
 (defun mdr-put-header-in-temp-buffer ()
@@ -94,21 +91,7 @@
     (point)))
 
 (defun mdr-looking-at-list-p ()
-  (let ((next-line-word (mdr-next-line-first-word-length)))
-    (insert next-line-word)
-    (and (> next-line-word 0)
-  	 (< (+ next-line-word (line-end-position)) 70))))
-
-(defun mdr-looking-at-list-p-2 ()
   (looking-at-p " ?[a-zA-Z0-9]+:"))  ; why does [:alnum:] not work?
-
-(defun mdr-next-line-first-word-length ()
-  (save-excursion
-    (forward-line 1)
-    (when (looking-at-p ";;")
-      (forward-char)
-    (skip-chars-forward "^ ")))
-(mdr-next-line-first-word-length)
 
 (defun mdr-find-and-replace-disclaimer ()
   (save-excursion
