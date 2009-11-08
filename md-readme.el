@@ -64,12 +64,14 @@
       (delete-char 2)
       (cond ((looking-at-p ";")  ; heading
 	     (delete-char 1)
-	     (insert "#")
-	     (progn
-	       (end-of-line)
-	       (backward-char)
-	       (when (looking-at-p ":")
-		 (delete-char 1))))
+	     (if (looking-at-p " Code:?")
+		 (delete-region (point) (line-end-position))
+	       (insert "#")
+	       (progn
+		 (end-of-line)
+		 (backward-char)
+		 (when (looking-at-p ":")
+		   (delete-char 1)))))
 	    ((mdr-looking-at-list-p) (insert "*"))
 	    (t (delete-char 1)))) ; whitespace
     (forward-line 1)))
