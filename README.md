@@ -47,7 +47,7 @@ but here is one that works for me:
       (dir-locals-set-directory-class
        dir 'generate-README-with-md-readme))
     (add-hook 'after-save-hook 
-              '(lambda () (if mdr-generate-readme (mdr-generate))))
+              '(lambda () (if (boundp 'mdr-generate-readme) (mdr-generate))))
 
 # History
 * 2009-11:    First release.
