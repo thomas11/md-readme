@@ -49,16 +49,16 @@
 ;; (require 'md-readme), then you can call mdr-generate manually. I
 ;; have not found a way to call it automatically that I really like,
 ;; but here is one that works for me:
-;;
-;;   (require 'md-readme)
-;;   (dir-locals-set-class-variables
-;;    'generate-README-with-md-readme
-;;    '((emacs-lisp-mode . ((mdr-generate-readme . t)))))
-;;   (dolist (dir '("~/Projects/wpmail/" "~/Projects/md-readme/"))
-;;     (dir-locals-set-directory-class
-;;      dir 'generate-README-with-md-readme))
-;;   (add-hook 'after-save-hook 
-;;             '(lambda () (if mdr-generate-readme (mdr-generate))))
+
+;;     (require 'md-readme)
+;;     (dir-locals-set-class-variables
+;;      'generate-README-with-md-readme
+;;      '((emacs-lisp-mode . ((mdr-generate-readme . t)))))
+;;     (dolist (dir '("~/Projects/wpmail/" "~/Projects/md-readme/"))
+;;       (dir-locals-set-directory-class
+;;        dir 'generate-README-with-md-readme))
+;;     (add-hook 'after-save-hook 
+;;               '(lambda () (if mdr-generate-readme (mdr-generate))))
 
 ;;; History:
 ;; 2009-11:    First release.
