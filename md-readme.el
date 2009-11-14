@@ -2,7 +2,7 @@
 
 ;; Author: Thomas Kappler <tkappler@gmail.com>
 ;; Created: 2009 November 07
-;; Keywords: readme, markdown, header, documentation
+;; Keywords: readme, markdown, header, documentation, github
 ;; URL: <http://github.com/thomas11/md-readme/tree/master>
 
 ;; Copyright (C) 2009 Thomas Kappler
@@ -24,20 +24,23 @@
 
 ;; The git-based source code hosting site <http://github.com> has
 ;; lately become popular for Emacs Lisp projects. Github has a feature
-;; that displays files named "README" automatically on a project's
-;; main page. If these files are formatted in Markdown, the formatting
-;; is interpreted.
+;; that displays files named "README[.suffix]" automatically on a
+;; project's main page. If these files are formatted in Markdown, the
+;; formatting is interpreted. See
+;; <http://github.com/guides/readme-formatting> for more information.
 
 ;; Emacs Lisp files customarily have a header in a fairly standardized
-;; format. md-readme extracts this header and re-formats it to
-;; Markdown. If you put your code on github, you could have this run
-;; automatically, for instance upon saving the file or from a git
-;; pre-commit hook, so you always have an up-to-date README on github.
+;; format. md-readme extracts this header, re-formats it to Markdown,
+;; and writes it to the file "README.md" in the same directory. If you
+;; put your code on github, you could have this run automatically, for
+;; instance upon saving the file or from a git pre-commit hook, so you
+;; always have an up-to-date README on github.
 
 ;; It recognizes headings, the GPL license disclaimer which is
 ;; replaced by a shorter notice linking to the GNU project's license
-;; website, lists, and normal paragraph. Lists are somewhat tricky to
-;; recognize automatically.
+;; website, lists, and normal paragraphs. Lists are somewhat tricky to
+;; recognize automatically, and the program employs a very simple
+;; heuristic currently.
 
 ;;; Dependencies:
 ;; None.
@@ -50,13 +53,20 @@
 ;; 2009-11:    First release.
 
 ;;; Code:
-(progn
-  (set-buffer (mdr-put-header-in-temp-buffer))
-  (mdr-convert-header)
-)
-
+(defun mdr-generate ()
+  "Generate README.md from the header of the current file."
+  (interactive)
+  (let ((header (mdr-extract-header)))
+    (with-temp-file "README.md"
+      (insert header)
+      (mdr-convert-header))))
+(mdr-generate)
 
 (defun mdr-convert-header ()
+  "Convert the header to Markdown.
+This function transforms the header in-place, so be sure to
+extract the header first with mdr-extract-header and call it on
+the copy."
   (goto-char (point-min))
   (mdr-find-and-replace-disclaimer)
   (while (< (line-number-at-pos) (line-number-at-pos (point-max)))
@@ -76,16 +86,12 @@
 	    (t (delete-char 1)))) ; whitespace
     (forward-line 1)))
 
-(defun mdr-put-header-in-temp-buffer ()
-  (let ((oldbuf (current-buffer))
-	(oldbuf-start (point-min))
-	(oldbuf-end-header (mdr-end-of-header)))
-    (save-excursion
-      (set-buffer (generate-new-buffer "md-readme-tmp.md"))
-      (insert-buffer-substring oldbuf oldbuf-start oldbuf-end-header)
-      (current-buffer))))
+(defun mdr-extract-header ()
+  "Extract the standard ELisp file header into a string."
+  (buffer-substring (point-min) (mdr-end-of-header)))
 
 (defun mdr-end-of-header ()
+  "Find the end of the header and return its position."
   (save-excursion
     (goto-char (point-min))
     (while (or (looking-at-p "\n") (looking-at-p ";;"))
@@ -93,9 +99,13 @@
     (point)))
 
 (defun mdr-looking-at-list-p ()
-  (looking-at-p " ?[a-zA-Z0-9]+:"))  ; why does [:alnum:] not work?
+  "Determine if the line we're looking should become a list item.
+Requires point to be at the beginning of the line."
+  (looking-at-p " ?[-a-zA-Z0-9]+:"))  ; why does [:alnum:] not work?
 
 (defun mdr-find-and-replace-disclaimer ()
+  "Find the GPL license disclaimer, and replace it with a
+one-line note linked to the GPL website."
   (save-excursion
     (goto-char (point-min))
     (when (search-forward "This program is free software" nil t)
@@ -105,9 +115,5 @@
       		       nil t)))
       	(delete-region start-line end-line)
       	(insert "Licensed under the [GPL version 3](http://www.gnu.org/licenses/) or later.")))))
-
-; list? heuristic:
-;  - if next line not empty, line length + length of next word < 70.
-;  - More than one line starts with Capital:
 
 (provide 'md-readme)
