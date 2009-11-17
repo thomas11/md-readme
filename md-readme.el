@@ -2,7 +2,7 @@
 
 ;; Author: Thomas Kappler <tkappler@gmail.com>
 ;; Created: 2009 November 07
-;; Keywords: readme, markdown, header, documentation, github
+;; Keywords: lisp, help, readme, markdown, header, documentation, github
 ;; URL: <http://github.com/thomas11/md-readme/tree/master>
 
 ;; Copyright (C) 2009 Thomas Kappler
@@ -127,3 +127,4 @@ one-line note linked to the GPL website."
       	(insert "Licensed under the [GPL version 3](http://www.gnu.org/licenses/) or later.")))))
 
 (provide 'md-readme)
+;;; md-readme.el ends here
