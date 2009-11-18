@@ -80,17 +80,17 @@ the copy."
   (goto-char (point-min))
   (mdr-find-and-replace-disclaimer)
   (while (< (line-number-at-pos) (line-number-at-pos (point-max)))
-    (when (looking-at-p ";;")
+    (when (looking-at ";;")
       (delete-char 2)
-      (cond ((looking-at-p ";")  ; heading
+      (cond ((looking-at ";")  ; heading
 	     (delete-char 1)
-	     (if (looking-at-p " Code:?")
+	     (if (looking-at " Code:?")
 		 (delete-region (point) (line-end-position))
 	       (insert "#")
 	       (progn
 		 (end-of-line)
 		 (backward-char)
-		 (when (looking-at-p ":")
+		 (when (looking-at ":")
 		   (delete-char 1)))))
 	    ((mdr-looking-at-list-p) (insert "*"))
 	    (t (delete-char 1)))) ; whitespace
@@ -104,14 +104,14 @@ the copy."
   "Find the end of the header and return its position."
   (save-excursion
     (goto-char (point-min))
-    (while (or (looking-at-p "\n") (looking-at-p ";;"))
+    (while (or (looking-at "\n") (looking-at ";;"))
       (forward-line 1))
     (point)))
 
 (defun mdr-looking-at-list-p ()
   "Determine if the line we're looking should become a list item.
 Requires point to be at the beginning of the line."
-  (looking-at-p " ?[-a-zA-Z0-9]+:"))  ; why does [:alnum:] not work?
+  (looking-at " ?[-a-zA-Z0-9]+:"))  ; why does [:alnum:] not work?
 
 (defun mdr-find-and-replace-disclaimer ()
   "Find the GPL license disclaimer, and replace it with a
