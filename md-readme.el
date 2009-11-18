@@ -64,13 +64,24 @@
 ;; 2009-11:    First release.
 
 ;;; Code:
-(defun mdr-generate ()
+(defun mdr-generate (&optional out-filename)
   "Generate README.md from the header of the current file."
   (interactive)
   (let ((header (mdr-extract-header)))
-    (with-temp-file "README.md"
+    (with-temp-file (or out-filename "README.md")
       (insert header)
       (mdr-convert-header))))
+
+(defun mdr-generate-batch ()
+  "Generate README.md from elisp files on the command line.
+Takes two command line arguments: the elisp filename, and the target
+Markdown filename (which defaults to 'README.md'."
+  (let ((in-filename (expand-file-name (or (car command-line-args-left) "")))
+        (out-filename (expand-file-name (or (cadr command-line-args-left) "README.md"))))
+    (message "Generating %s from %s..." out-filename in-filename)
+    (with-current-buffer (find-file in-filename)
+      (mdr-generate out-filename))
+    (setq command-line-args-left (cddr command-line-args-left))))
 
 (defun mdr-convert-header ()
   "Convert the header to Markdown.
