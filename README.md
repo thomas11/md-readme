@@ -1,11 +1,13 @@
 # md-readme.el --- Markdown-formatted READMEs for your ELisp
 
+Copyright (C) 2009 Thomas Kappler
+
 * Author: Thomas Kappler <tkappler@gmail.com>
 * Created: 2009 November 07
 * Keywords: lisp, help, readme, markdown, header, documentation, github
 * URL: <http://github.com/thomas11/md-readme/tree/master>
 
-Copyright (C) 2009 Thomas Kappler
+This file is not part of GNU Emacs.
 
 Licensed under the [GPL version 3](http://www.gnu.org/licenses/) or later.
 
