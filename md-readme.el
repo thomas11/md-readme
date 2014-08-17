@@ -106,6 +106,7 @@ the copy."
 		 (when (looking-at ":")
 		   (delete-char 1)))))
 	    ((mdr-looking-at-list-p) (insert "*"))
+            ((looking-at "\n") nil) ; Nothing after the semicolons
 	    (t (delete-char 1)))) ; whitespace
     (forward-line 1)))
 
