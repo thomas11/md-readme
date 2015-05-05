@@ -9,7 +9,7 @@
 # md-readme package, you can just run `cask exec md-readme <filename>`, since
 # Cask will set up the environment for you.
 
-if [[ "$#" -ne 1 ]]; then
+if [ "$#" -ne 1 ]; then
     echo "Usage: md-readme <filename>" >&2
 
     exit 2
