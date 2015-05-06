@@ -59,8 +59,12 @@
 ;;     (dolist (dir '("~/Projects/wpmail/" "~/Projects/md-readme/"))
 ;;       (dir-locals-set-directory-class
 ;;        dir 'generate-README-with-md-readme))
-;;     (add-hook 'after-save-hook 
+;;     (add-hook 'after-save-hook
 ;;               '(lambda () (if (boundp 'mdr-generate-readme) (mdr-generate))))
+
+;;; Binaries
+;; `bin/md-readme` is a shell script that will generate readme.md for the
+;; passed file. See it for usage instructions.
 
 ;;; History:
 ;; 2009-11:    First release.
