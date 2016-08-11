@@ -29,7 +29,8 @@ always have an up-to-date README on github.
 
 It recognizes headings, the GPL license disclaimer which is
 replaced by a shorter notice linking to the GNU project's license
-website, lists, and normal paragraphs. Lists are somewhat tricky to
+website, lists, and normal paragraphs. It escapes `` `backtick-quoted' ``
+names so they will display correctly. Lists are somewhat tricky to
 recognize automatically, and the program employs a very simple
 heuristic currently.
 
