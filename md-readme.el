@@ -80,8 +80,9 @@
       (mdr-convert-header))))
 
 (defun mdr-replace-regexp (regexp replacement)
-  (while (re-search-forward regexp nil :noerror)
-    (replace-match replacement)))
+  (save-match-data
+    (while (re-search-forward regexp nil :noerror)
+      (replace-match replacement))))
 
 (defun mdr-generate-batch ()
   "Generate README.md from elisp files on the command line.
